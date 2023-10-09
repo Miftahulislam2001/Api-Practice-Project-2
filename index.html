@@ -6,7 +6,7 @@
     <title>News-find_Api Practice project</title>
     <link rel="stylesheet" href="style/bootstrap.css">
 </head>
-<body>
+<body onload="loadCategoriesData()">
 
 <!-- HEADER SECTION -->
 <header class="container my-3">
@@ -18,7 +18,19 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>
-      </nav>
+    </nav>
+
+    <section class="link-container d-flex justify-content-between px-3 my-3" id="link-container">
+
+    </section>
+
+<!-- ALERT SECTION -->
+    <section class="container mt-4">
+        <div class="alert alert-light" role="alert">
+          <span id="news-count">0</span> items found for category
+          <span id="category-name"></span>
+        </div>
+      </section>
 </header>
 
 <!-- MAIN SECTION -->
