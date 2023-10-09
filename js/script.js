@@ -8,10 +8,8 @@ const loadCategoriesData = () =>{
 };
 
 const showCategories = (data) =>{
-    console.log(data);
     const LinkContainer = document.getElementById('link-container');
     data.forEach(categories => {
-        //console.log(categories);
         const link = document.createElement('p');
         link.innerHTML = `<a class="nav-link" href="#" onclick = "showCategoryNews('${categories.category_id}', '${categories.category_name}')">${categories.category_name}</a>`
         LinkContainer.appendChild(link)
@@ -23,16 +21,23 @@ const showCategoryNews = (category_id, category_name) =>{
     fetch(URL)
     .then(res => res.json())
     .then(data =>{
-        showAllCategoryNews(data.data.length, category_name);
+        showAllCategoryNews(data.data, category_name);
     })
 };
 
 const showAllCategoryNews = (category_id, category_name) =>{
-    console.log(category_id, category_name);
     const alertCategoryNumber = document.getElementById('news-count');
-    alertCategoryNumber.innerText = category_id;
+    alertCategoryNumber.innerText = category_id.length;
     const alertCategoryName = document.getElementById('category-name');
     alertCategoryName.innerText = category_name;
+
+    category_id.forEach(singleNews => {
+        showSingleNews(singleNews)
+    });
+};
+
+const showSingleNews = (single_News) =>{
+    console.log(single_News);
 };
 
 
