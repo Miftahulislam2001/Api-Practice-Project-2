@@ -42,7 +42,8 @@ const showSingleNews = (single_News) =>{
   const cardContainer = document.getElementById('all-news');
   cardContainer.innerHTML = '';
   single_News.forEach(singleNews => {
-      const {thumbnail_url, title, details, total_view, _id} = singleNews;
+    console.log(singleNews);
+      const {thumbnail_url, title, details, total_view, _id, rating} = singleNews;
       const div = document.createElement('div');
       div.innerHTML = `
       <div class="card mb-3">
@@ -68,10 +69,9 @@ const showSingleNews = (single_News) =>{
               <i class="fa-regular fa-eye"></i>
               <p class="p-0 m-0">${total_view}</p>
             </div>
-            <div>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+            <div class = "d-flex align-items-center justify-content-center">
+              ${generateStars(rating.number)}
+              <p class = "p-0 m-0">${rating.number}</p>
             </div>
             <div>
               <i onclick = "loadNewsDetails('${_id}')" class="fa-solid fa-arrow-right" data-bs-toggle="modal"
@@ -141,3 +141,15 @@ const showTrendingNews = () =>{
   showAllCategoryNews(trendingNews, category_name)
 };
 
+
+const generateStars= rating =>{
+    let ratingHTML= '';
+    for (let i = 1; i <= Math.floor(rating); i++){
+        ratingHTML +=`<i class="fas fa-star"></i>`;
+      
+    }
+    if(rating - Math.floor(rating)>0){
+        ratingHTML+=`<i class="fas fa-star-half"></i>`
+    }
+    return ratingHTML;
+};
