@@ -43,7 +43,7 @@ const showSingleNews = (single_News) =>{
   cardContainer.innerHTML = '';
   single_News.forEach(singleNews => {
     console.log(singleNews);
-      const {thumbnail_url, title, details, total_view, _id, rating} = singleNews;
+      const {thumbnail_url, title, details, total_view, _id, rating, } = singleNews;
       const div = document.createElement('div');
       div.innerHTML = `
       <div class="card mb-3">
@@ -61,13 +61,13 @@ const showSingleNews = (single_News) =>{
             <div class="d-flex gap-2 align-items-center">
               <img class="rounded-circle" height="40" width="40" src="${singleNews.author.img}" alt="">
               <div class="d-flex flex-column gap-0">
-                <p class="p-0 m-0">${singleNews.author.name}</p>
+                <p class="p-0 m-0">${singleNews.author.name ? singleNews.author.name : "Not Available"}</p>
                 <p class="p-0 m-0">${singleNews.author.published_date}</p>
               </div>
             </div>
             <div class="d-flex align-items-center gap-2 ">
               <i class="fa-regular fa-eye"></i>
-              <p class="p-0 m-0">${total_view}</p>
+              <p class="p-0 m-0">${total_view ? total_view : "Not Available"}</p>
             </div>
             <div class = "d-flex align-items-center justify-content-center">
               ${generateStars(rating.number)}
@@ -98,7 +98,7 @@ const loadNewsDetails = (news_id) =>{
 
 const displayNewsDetails = (modal_data) =>{
     const modalContainer = document.getElementById('modal-body');
-    const {image_url, title, details, total_view, _id} = modal_data;
+    const {image_url, title, details, total_view, _id, others_info} = modal_data;
     modalContainer.innerHTML = `
     <div class="card mb-3">
     <div class="d-flex flex-column g-1">
@@ -107,7 +107,7 @@ const displayNewsDetails = (modal_data) =>{
       </div>
       <div class=" d-flex flex-column">
         <div class="card-body">
-          <h5 class="card-title">${title}</h5>
+          <h5 class="card-title">${title} <span class="badge text-bg-warning">${others_info.is_trending ? "Trending" : "Not Trending"}</span></h5>
           <p class="card-text">${details.slice(0, 300)}...</p>
         </div>
         
@@ -139,6 +139,12 @@ const showTrendingNews = () =>{
   const trendingNews = fetchData.filter(singleData => singleData.others_info.is_trending === true)
   const category_name = document.getElementById("category-name").innerText;
   showAllCategoryNews(trendingNews, category_name)
+};
+
+const showTodaysPick = () =>{
+  const todayPick = fetchData.filter(singleData => singleData.others_info.is_todays_pick === true);
+  const category_name = document.getElementById("category-name").innerText;
+  showAllCategoryNews(todayPick, category_name)
 };
 
 
