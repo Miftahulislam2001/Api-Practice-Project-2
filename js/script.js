@@ -37,8 +37,96 @@ const showAllCategoryNews = (category_id, category_name) =>{
 };
 
 const showSingleNews = (single_News) =>{
-    console.log(single_News);
+    const {thumbnail_url, title, details, total_view, _id} = single_News;
+    const cardContainer = document.getElementById('all-news');
+    const div = document.createElement('div');
+    div.innerHTML = `
+    <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-3">
+        <img src="${thumbnail_url}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-9 d-flex flex-column">
+        <div class="card-body">
+          <h5 class="card-title">${title}</h5>
+          <p class="card-text">${details.slice(0, 300)}...</p>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center p-3">
+          <div class="d-flex gap-2 align-items-center">
+            <img class="rounded-circle" height="40" width="40" src="${single_News.author.img}" alt="">
+            <div class="d-flex flex-column gap-0">
+              <p class="p-0 m-0">${single_News.author.name}</p>
+              <p class="p-0 m-0">${single_News.author.published_date}</p>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2 ">
+            <i class="fa-regular fa-eye"></i>
+            <p class="p-0 m-0">${total_view}</p>
+          </div>
+          <div>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            <i onclick = "loadNewsDetails('${_id}')" class="fa-solid fa-arrow-right" data-bs-toggle="modal"
+            data-bs-target="#exampleModal"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    `;
+    cardContainer.appendChild(div);
+};
+
+const loadNewsDetails = (news_id) =>{
+    const URL = `https://openapi.programming-hero.com/api/news/${news_id}`;
+    fetch(URL)
+    .then(res => res.json())
+    .then(data => {
+        displayNewsDetails(data.data[0]);
+    })
+};
+
+const displayNewsDetails = (modal_data) =>{
+    const modalContainer = document.getElementById('modal-body');
+    const {image_url, title, details, total_view, _id} = modal_data;
+    modalContainer.innerHTML = `
+    <div class="card mb-3">
+    <div class="d-flex flex-column g-1">
+      <div class="">
+        <img src="${image_url}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class=" d-flex flex-column">
+        <div class="card-body">
+          <h5 class="card-title">${title}</h5>
+          <p class="card-text">${details.slice(0, 300)}...</p>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center p-3">
+          <div class="d-flex gap-2 align-items-center">
+            <img class="rounded-circle" height="40" width="40" src="${modal_data.author.img}" alt="">
+            <div class="d-flex flex-column gap-0">
+              <p class="p-0 m-0">${modal_data.author.name}</p>
+              <p class="p-0 m-0">${modal_data.author.published_date}</p>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2 ">
+            <i class="fa-regular fa-eye"></i>
+            <p class="p-0 m-0">${total_view}</p>
+          </div>
+          <div>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    `;
 };
 
 
-//loadCategoriesData();
